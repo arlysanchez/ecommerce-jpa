@@ -2,9 +2,8 @@ package upeu.edu.pe.ecommerce;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
+@SpringBootApplication //(exclude = DataSourceAutoConfiguration.class)
 public class EcommerceApplication {
 
 	public static void main(String[] args) {
