@@ -4,6 +4,7 @@
  */
 package upeu.edu.pe.ecommerce.services;
 
+import java.util.List;
 import java.util.Optional;
 import upeu.edu.pe.ecommerce.models.Producto;
 
@@ -13,6 +14,7 @@ import upeu.edu.pe.ecommerce.models.Producto;
  */
 public interface ProductoService {
     
+    public List<Producto> findAll(); 
     public Producto save(Producto producto);
     public Optional<Producto> get(Integer id);
     public void update(Producto producto);
