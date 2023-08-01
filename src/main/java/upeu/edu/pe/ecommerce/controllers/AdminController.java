@@ -4,9 +4,14 @@
  */
 package upeu.edu.pe.ecommerce.controllers;
 
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import upeu.edu.pe.ecommerce.models.Producto;
+import upeu.edu.pe.ecommerce.services.ProductoService;
 
 /**
  *
@@ -15,10 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("admin")
 public class AdminController {
-    
+
+    @Autowired
+    private ProductoService productoService;
+
     @GetMapping("")
-    public String home(){
+    public String home(Model model) {
+        List<Producto> productos = productoService.findAll();
+        model.addAttribute("productos", productos);
         return "admin/home";
     }
-    
+
 }
