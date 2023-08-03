@@ -4,14 +4,16 @@
  */
 package upeu.edu.pe.ecommerce.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -33,8 +35,8 @@ public class Orden {
     @ManyToOne
     private Usuario usuario;
     
-    @OneToOne(mappedBy = "orden")
-    private DetalleOrden detalle_orden;
+    @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DetalleOrden> detalle_orden;
     
     public Orden() {
     }
@@ -98,15 +100,15 @@ public class Orden {
         this.usuario = usuario;
     }
 
-    public DetalleOrden getDetalle_orden() {
+    public List<DetalleOrden> getDetalle_orden() {
         return detalle_orden;
     }
 
-    public void setDetalle_orden(DetalleOrden detalle_orden) {
+    public void setDetalle_orden(List<DetalleOrden> detalle_orden) {
         this.detalle_orden = detalle_orden;
     }
 
-    
+      
     
 
     @Override

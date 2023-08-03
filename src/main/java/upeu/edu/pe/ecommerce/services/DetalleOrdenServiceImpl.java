@@ -6,6 +6,7 @@ package upeu.edu.pe.ecommerce.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import upeu.edu.pe.ecommerce.models.DetalleOrden;
 import upeu.edu.pe.ecommerce.repository.DetalleOrdenRepository;
 
@@ -18,7 +19,8 @@ public class DetalleOrdenServiceImpl implements DetalleOrdenService {
 
     @Autowired
     private DetalleOrdenRepository detalleOrdenRepository;
-
+    
+    @Transactional
     @Override
     public DetalleOrden save(DetalleOrden detalleOrden) {
         return detalleOrdenRepository.save(detalleOrden);

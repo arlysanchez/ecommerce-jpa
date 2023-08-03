@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import upeu.edu.pe.ecommerce.models.Orden;
 import upeu.edu.pe.ecommerce.models.Usuario;
@@ -22,6 +23,7 @@ import upeu.edu.pe.ecommerce.repository.UsuarioRepository;
 @Service
 public class OrdenServiceImpl implements OrdenService {
 
+    @Autowired
     private OrdenRepository ordenRepository;
 
     @Transactional
@@ -47,16 +49,16 @@ public class OrdenServiceImpl implements OrdenService {
         int numero = 0;
         String numeroConcatenado = "";
 
-        List<Orden> ordenes = findAll();
+        List<Orden> ordenes = findAll();//recoger todas las ordenes
 
         List<Integer> numeros = new ArrayList<Integer>();
 
-        ordenes.stream().forEach(o -> numeros.add(Integer.parseInt(o.getNumero())));
+        ordenes.stream().forEach(d -> numeros.add(Integer.parseInt(d.getNumero())));//pasar el ultima orden de String a numero
 
-        if (ordenes.isEmpty()) {
+        if (ordenes.isEmpty()) {//si la lista viene vacia
             numero = 1;
         } else {
-            numero = numeros.stream().max(Integer::compare).get();
+            numero = numeros.stream().max(Integer::compare).get();//obtiene el mayor numero de la lista
             numero++;
         }
 
