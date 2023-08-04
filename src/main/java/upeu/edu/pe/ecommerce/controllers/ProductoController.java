@@ -35,7 +35,7 @@ public class ProductoController {
 
     @Autowired
     private ProductoService productoService;
-    
+
     @Autowired
     private UsuarioServices usuarioService;
 
@@ -43,20 +43,23 @@ public class ProductoController {
     private UploadFileService upload;
 
     @GetMapping("")
-    public String show(Model model) {
+    public String show(Model model, HttpSession session) {
         model.addAttribute("productos", productoService.findAll());
+        model.addAttribute("nombre_session", session.getAttribute("nombre"));
         return "productos/view";
     }
 
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model, HttpSession session) {
+        model.addAttribute("nombre_session", session.getAttribute("nombre"));
+
         return "productos/create";
     }
 
     @PostMapping("/save")
     public String save(Producto producto, @RequestParam("img") MultipartFile file, HttpSession session) throws IOException {
         LOGGER.info("Este es el objeto del producto {}", producto);//ver en consola el objeto (testear)
-       Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+        Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
 
         //Usuario u = new Usuario(1, "", "", "", "", "", "", "");
         producto.setUsuario(usuario);

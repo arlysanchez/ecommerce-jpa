@@ -33,16 +33,23 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarResponsive">
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item dropdown"><a
-                                    class="nav-link dropdown-toggle" href="#"
-                                    id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false"> ADMIN </a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#"
+                                   id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false" th:text="${nombre_session}">
+                                    <img th:src="@{/css/img/generic.png}" style="width: 30px; height: 30px" class="user-image" alt="User Image">
+                                </a>
                                 <div class="dropdown-menu"
                                      aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" th:href="@{/productos}">Productos</a> 
+                                    <a class="dropdown-item" th:href="@{/admin/usuarios}">Usuarios</a>
+                                    <a class="dropdown-item" th:href="@{/admin/ordenes}">Ordenes</a>
+                                    <a class="dropdown-item" th:href="@{/usuario/cerrar}">Salir</a>
                                 </div></li>
+                            </li>
                         </ul>
                     </div>
+
                 </div>
             </nav>
         </div>

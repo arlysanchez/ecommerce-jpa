@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import upeu.edu.pe.ecommerce.models.Orden;
+import upeu.edu.pe.ecommerce.models.Usuario;
 
 /**
  *
@@ -15,6 +16,6 @@ import upeu.edu.pe.ecommerce.models.Orden;
  */
 @Repository
 public interface OrdenRepository extends CrudRepository<Orden, Integer>{
-    List<Orden> findByUsuario (UsuarioRepository usuario);
+    List<Orden> findByUsuario (Usuario usuario);
     
 }

@@ -3,9 +3,13 @@
 
     <head th:replace="usuario/template_usuario :: head_usuario"> </head>
 
-    <body>
-        <div th:replace="usuario/template_usuario :: header_usuario"></div> 
+    
+        <!-- Navigation -->
+	<div th:include="usuario/template_usuario :: header_usuario" th:if="${sesion==null}"></div>
+	
+	<div th:include="usuario/template_usuario :: header-user" th:unless="${sesion==null}"> </div>
 
+<body>
         <!-- Page Content -->
         <div class="container">
             <!-- Page Heading/Breadcrumbs -->
@@ -60,10 +64,10 @@
             </div>
         </div>
         <!-- /.container -->
-
+</body>
         <!-- Footer -->
         <div th:replace="usuario/template_usuario :: footer_usuario"></div>  
 
-    </body>
+    
 
 </html>

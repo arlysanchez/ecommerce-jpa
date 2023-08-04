@@ -4,9 +4,7 @@
  */
 package upeu.edu.pe.ecommerce.controllers;
 
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,14 +13,12 @@ import java.util.stream.Collectors;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import upeu.edu.pe.ecommerce.models.DetalleOrden;
 import upeu.edu.pe.ecommerce.models.Orden;
 import upeu.edu.pe.ecommerce.models.Producto;
@@ -65,9 +61,10 @@ public class HomeController {
     public String home(Model model, HttpSession session) {
 
         log.info("Sesion del usuario: {}", session.getAttribute("idusuario"));
+        log.info("nombre del usuario: {}", session.getAttribute("nombre"));
         model.addAttribute("productos", productoService.findAll());
         //session
-        // model.addAttribute("sesion", session.getAttribute("idusuario"));
+        model.addAttribute("sesion", session.getAttribute("idusuario"));
 
         return "usuario/home";
     }
@@ -144,13 +141,13 @@ public class HomeController {
     }
 
     @GetMapping("/getCart")
-    public String getCart(Model model) {
+    public String getCart(Model model, HttpSession session) {
 
         model.addAttribute("cart", detalles);
         model.addAttribute("orden", orden);
 
         //sesion
-        // model.addAttribute("sesion", session.getAttribute("idusuario"));
+        model.addAttribute("sesion", session.getAttribute("idusuario"));
         return "/usuario/carrito";
     }
 

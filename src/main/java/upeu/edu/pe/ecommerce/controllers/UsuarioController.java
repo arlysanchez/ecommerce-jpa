@@ -5,14 +5,18 @@
 package upeu.edu.pe.ecommerce.controllers;
 
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import upeu.edu.pe.ecommerce.models.Orden;
 import upeu.edu.pe.ecommerce.models.Usuario;
+import upeu.edu.pe.ecommerce.services.OrdenService;
 import upeu.edu.pe.ecommerce.services.UsuarioServices;
 
 /**
@@ -27,6 +31,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioServices usuarioService;
+
+    @Autowired
+    private OrdenService ordenService;
 
     //BCryptPasswordEncoder passEncode= new BCryptPasswordEncoder();
     // /usuario/registro
@@ -58,6 +65,7 @@ public class UsuarioController {
 
         if (user.isPresent()) {
             session.setAttribute("idusuario", user.get().getId());
+            session.setAttribute("nombre", user.get().getNombre());
 
             if (user.get().getTipo().equals("ADMIN")) {
                 return "redirect:/admin";
@@ -68,6 +76,25 @@ public class UsuarioController {
             logger.info("Usuario no existe");
         }
 
+        return "redirect:/";
+    }
+
+    @GetMapping("/compras")
+    public String obtenerCompras(Model model, HttpSession session) {
+        model.addAttribute("sesion", session.getAttribute("idusuario"));
+
+        
+       Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+        List<Orden> ordenes = ordenService.findByUsuario(usuario);
+        logger.info("ordenes {}", ordenes);
+        model.addAttribute("ordenes", ordenes);
+
+        return "usuario/compras";
+    }
+
+    @GetMapping("/cerrar")
+    public String cerrarSesion(HttpSession session) {
+        session.removeAttribute("idusuario");
         return "redirect:/";
     }
 

@@ -2,9 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.com">
 
     <head th:replace="usuario/template_usuario :: head_usuario"> </head>
+    <!-- Navigation -->
+    <div th:include="usuario/template_usuario :: header_usuario" th:if="${sesion==null}"></div>
+
+    <div th:include="usuario/template_usuario :: header-user" th:unless="${sesion==null}"> </div>
 
     <body>
-        <div th:replace="usuario/template_usuario :: header_usuario"></div>  
         <div class="container">
 
 
@@ -55,12 +58,12 @@
 
 
 
-    </div>
-    <!-- /.container -->
-
-<!-- Footer -->
+        </div>
+        <!-- /.container -->
+    </body>
+    <!-- Footer -->
     <div th:replace="usuario/template_usuario :: footer_usuario"></div>  
 
-</body>
+
 
 </html>

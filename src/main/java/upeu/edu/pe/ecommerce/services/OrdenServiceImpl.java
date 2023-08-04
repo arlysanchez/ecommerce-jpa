@@ -4,7 +4,6 @@
  */
 package upeu.edu.pe.ecommerce.services;
 
-
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +30,13 @@ public class OrdenServiceImpl implements OrdenService {
     public Orden save(Orden orden) {
         return ordenRepository.save(orden);
     }
-    
-     @Transactional(readOnly = true)
+
+    @Transactional(readOnly = true)
     @Override
     public List<Orden> findAll() {
         return (List<Orden>) ordenRepository.findAll();
     }
-    
+
     @Transactional(readOnly = true)
     @Override
     public Optional<Orden> findById(Integer id) {
@@ -74,10 +73,12 @@ public class OrdenServiceImpl implements OrdenService {
 
         return numeroConcatenado;
     }
+
     @Transactional(readOnly = true)
     @Override
     public List<Orden> findByUsuario(Usuario usuario) {
-        return ordenRepository.findByUsuario((UsuarioRepository) usuario);
+        return ordenRepository.findByUsuario(usuario);
+
     }
 
 }
