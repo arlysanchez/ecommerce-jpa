@@ -15,5 +15,5 @@ import upeu.edu.pe.ecommerce.models.Usuario;
  */
 @Repository
 public interface UsuarioRepository extends CrudRepository<Usuario, Integer>{
-    Optional<Usuario> findByEmail(String email);
+    Optional<Usuario> findByEmail(String email);//buscar usuario por email
 }

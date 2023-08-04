@@ -4,6 +4,7 @@
  */
 package upeu.edu.pe.ecommerce.controllers;
 
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 import org.slf4j.*;
@@ -20,6 +21,7 @@ import upeu.edu.pe.ecommerce.models.Producto;
 import upeu.edu.pe.ecommerce.models.Usuario;
 import upeu.edu.pe.ecommerce.services.ProductoService;
 import upeu.edu.pe.ecommerce.services.UploadFileService;
+import upeu.edu.pe.ecommerce.services.UsuarioServices;
 
 /**
  *
@@ -33,6 +35,9 @@ public class ProductoController {
 
     @Autowired
     private ProductoService productoService;
+    
+    @Autowired
+    private UsuarioServices usuarioService;
 
     @Autowired
     private UploadFileService upload;
@@ -49,10 +54,12 @@ public class ProductoController {
     }
 
     @PostMapping("/save")
-    public String save(Producto producto, @RequestParam("img") MultipartFile file) throws IOException {
+    public String save(Producto producto, @RequestParam("img") MultipartFile file, HttpSession session) throws IOException {
         LOGGER.info("Este es el objeto del producto {}", producto);//ver en consola el objeto (testear)
-        Usuario u = new Usuario(1, "", "", "", "", "", "", "");
-        producto.setUsuario(u);
+       Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+
+        //Usuario u = new Usuario(1, "", "", "", "", "", "", "");
+        producto.setUsuario(usuario);
 
         //subir imagen al servidor
         //imagen

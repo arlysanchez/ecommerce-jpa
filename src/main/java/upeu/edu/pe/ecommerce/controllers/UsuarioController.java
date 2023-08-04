@@ -4,6 +4,8 @@
  */
 package upeu.edu.pe.ecommerce.controllers;
 
+import jakarta.servlet.http.HttpSession;
+import java.util.Optional;
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,9 +27,8 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioServices usuarioService;
-    
-    //BCryptPasswordEncoder passEncode= new BCryptPasswordEncoder();
 
+    //BCryptPasswordEncoder passEncode= new BCryptPasswordEncoder();
     // /usuario/registro
     @GetMapping("/registro")
     public String create() {
@@ -40,6 +41,33 @@ public class UsuarioController {
         usuario.setTipo("USER");
         //usuario.setPassword(passEncode.encode(usuario.getPassword()));
         usuarioService.save(usuario);
+        return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "usuario/login";
+    }
+
+    @PostMapping("/acceder")
+    public String acceder(Usuario usuario, HttpSession session) {
+        logger.info("Accesos : {}", usuario);
+
+        Optional<Usuario> user = usuarioService.findByEmail(usuario.getEmail());
+        //logger.info("Usuario de db: {}", user.get());
+
+        if (user.isPresent()) {
+            session.setAttribute("idusuario", user.get().getId());
+
+            if (user.get().getTipo().equals("ADMIN")) {
+                return "redirect:/admin";
+            } else {
+                return "redirect:/";
+            }
+        } else {
+            logger.info("Usuario no existe");
+        }
+
         return "redirect:/";
     }
 

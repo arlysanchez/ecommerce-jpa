@@ -5,6 +5,7 @@
 package upeu.edu.pe.ecommerce.controllers;
 
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,9 +62,9 @@ public class HomeController {
     Orden orden = new Orden();
 
     @GetMapping("")
-    public String home(Model model) {
+    public String home(Model model, HttpSession session) {
 
-        // log.info("Sesion del usuario: {}", session.getAttribute("idusuario"));
+        log.info("Sesion del usuario: {}", session.getAttribute("idusuario"));
         model.addAttribute("productos", productoService.findAll());
         //session
         // model.addAttribute("sesion", session.getAttribute("idusuario"));
@@ -154,10 +155,10 @@ public class HomeController {
     }
 
     @GetMapping("/order")
-    public String order(Model model) {
+    public String order(Model model,HttpSession session) {
 
-        //Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
-        Usuario usuario = usuarioService.findById(1).get();
+        Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+        //Usuario usuario = usuarioService.findById(1).get();
         log.info("ver el usuario {}", usuario);
 
         model.addAttribute("cart", detalles);
@@ -168,14 +169,14 @@ public class HomeController {
     }
 
     @GetMapping("/saveOrder")
-    public String saveOrder() {
+    public String saveOrder(HttpSession session) {
         Date fechaCreacion = new Date();
         orden.setFechaCreacion(fechaCreacion);
         orden.setNumero(ordenService.generarNumeroOrden());
 
         //usuario
-        // Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
-        Usuario usuario = usuarioService.findById(1).get();
+        Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
+        //Usuario usuario = usuarioService.findById(1).get();
         orden.setUsuario(usuario);//añadir el usuario a la orden
         ordenService.save(orden);//guardar la orden
 
