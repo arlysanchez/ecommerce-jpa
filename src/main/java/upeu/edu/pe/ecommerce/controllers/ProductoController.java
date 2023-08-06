@@ -77,11 +77,12 @@ public class ProductoController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable Integer id, Model model) {
+    public String edit(@PathVariable Integer id, Model model, HttpSession session) {
         Producto producto = new Producto();
         Optional<Producto> optionalProducto = productoService.get(id);
         producto = optionalProducto.get();
         LOGGER.info("Producto buscado {}", producto);//ver en consola el objeto (testear)
+        model.addAttribute("nombre_session", session.getAttribute("nombre"));
         model.addAttribute("producto", producto);
 
         return ("productos/edit");

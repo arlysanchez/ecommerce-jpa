@@ -70,19 +70,20 @@ public class HomeController {
     }
 
     @GetMapping("productohome/{id}")
-    public String productoHome(@PathVariable Integer id, Model model) {
+    public String productoHome(@PathVariable Integer id, Model model, HttpSession session) {
         log.info("Id producto enviado como parámetro {}", id);
         Producto producto = new Producto();
         Optional<Producto> productoOptional = productoService.get(id);
         producto = productoOptional.get();
 
         model.addAttribute("producto", producto);
+        model.addAttribute("sesion", session.getAttribute("idusuario"));
 
         return "usuario/productohome";
     }
 
     @PostMapping("/cart")
-    public String addCart(@RequestParam Integer id, @RequestParam Integer cantidad, Model model) {
+    public String addCart(@RequestParam Integer id, @RequestParam Integer cantidad, Model model, HttpSession session) {
         DetalleOrden detalleOrden = new DetalleOrden();
         Producto producto = new Producto();
         double sumaTotal = 0;
@@ -111,6 +112,7 @@ public class HomeController {
         orden.setTotal(sumaTotal);
         model.addAttribute("cart", detalles);
         model.addAttribute("orden", orden);
+        model.addAttribute("sesion", session.getAttribute("idusuario"));
 
         return "usuario/carrito";
     }
@@ -152,7 +154,7 @@ public class HomeController {
     }
 
     @GetMapping("/order")
-    public String order(Model model,HttpSession session) {
+    public String order(Model model, HttpSession session) {
 
         Usuario usuario = usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString())).get();
         //Usuario usuario = usuarioService.findById(1).get();
@@ -161,12 +163,13 @@ public class HomeController {
         model.addAttribute("cart", detalles);
         model.addAttribute("orden", orden);
         model.addAttribute("usuario", usuario);
+        model.addAttribute("sesion", session.getAttribute("idusuario"));
 
         return "usuario/resumenorden";
     }
 
     @GetMapping("/saveOrder")
-    public String saveOrder(HttpSession session) {
+    public String saveOrder(Model model,HttpSession session) {
         Date fechaCreacion = new Date();
         orden.setFechaCreacion(fechaCreacion);
         orden.setNumero(ordenService.generarNumeroOrden());
@@ -186,7 +189,7 @@ public class HomeController {
         ///limpiar lista y orden
         orden = new Orden();
         detalles.clear();
-
+        model.addAttribute("sesion", session.getAttribute("idusuario"));
         return "redirect:/";
 
     }
